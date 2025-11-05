@@ -3,14 +3,20 @@ import axios from "axios";
 
 export default function ExpenseForm() {
   const [form, setForm] = useState({ date: "", purpose: "", amount: "" });
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL; // ✅ backend URL from .env
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("/api/expenses", form);
-    alert("Expense added successfully!");
-    setForm({ date: "", purpose: "", amount: "" });
+    try {
+      await axios.post(`${BASE_URL}/api/expenses`, form);
+      alert("✅ Expense added successfully!");
+      setForm({ date: "", purpose: "", amount: "" });
+    } catch (err) {
+      alert("❌ Error adding expense. Please try again.");
+      console.error(err);
+    }
   };
 
   return (

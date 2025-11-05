@@ -3,15 +3,24 @@ import axios from "axios";
 
 export default function ExpenseList() {
   const [expenses, setExpenses] = useState([]);
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL; // ✅ backend URL from .env
 
   const fetchExpenses = async () => {
-    const res = await axios.get("/api/expenses");
-    setExpenses(res.data);
+    try {
+      const res = await axios.get(`${BASE_URL}/api/expenses`);
+      setExpenses(res.data);
+    } catch (err) {
+      console.error("Error fetching expenses:", err);
+    }
   };
 
   const deleteExpense = async (id) => {
-    await axios.delete(`/api/expenses/${id}`);
-    fetchExpenses();
+    try {
+      await axios.delete(`${BASE_URL}/api/expenses/${id}`);
+      fetchExpenses();
+    } catch (err) {
+      console.error("Error deleting expense:", err);
+    }
   };
 
   useEffect(() => {
