@@ -4,11 +4,11 @@ A full-stack application for tracking travel expenses and reimbursements, built 
 
 ## Features
 
-- ✅ Add new expenses with date, purpose, and amount
-- ✅ View all expenses in a table
-- ✅ Delete expenses
-- ✅ Real-time updates after adding expenses
-- ✅ Responsive design
+- Add new expenses with date, purpose, and amount
+- View all expenses in a table
+- Delete expenses
+- Real-time updates after adding expenses
+- Responsive design
 
 ## Tech Stack
 

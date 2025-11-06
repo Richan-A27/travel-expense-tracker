@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default function ExpenseList({ refreshKey }) {
   const [expenses, setExpenses] = useState([]);
-  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000"; // ✅ backend URL from .env
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000"; // backend URL from .env
 
   const fetchExpenses = useCallback(async () => {
     try {

@@ -21,7 +21,7 @@ const expenseRoutes = require("./routes/expenseRoutes");
 app.use("/api/expenses", expenseRoutes);
 
 app.get("/", (req, res) => {
-  res.send("🚀 Travel Expense Tracker Backend is running successfully!");
+  res.send("Travel Expense Tracker Backend is running successfully.");
 });
 
 // Health check endpoint for Render
@@ -37,9 +37,9 @@ const connectDB = async () => {
     }
     
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("✅ MongoDB connected successfully");
+    console.log("MongoDB connected successfully");
   } catch (err) {
-    console.error("❌ MongoDB connection error:", err.message);
+    console.error("MongoDB connection error:", err.message);
     process.exit(1);
   }
 };
@@ -49,15 +49,15 @@ connectDB();
 
 // Handle MongoDB connection errors
 mongoose.connection.on("error", (err) => {
-  console.error("❌ MongoDB connection error:", err);
+  console.error("MongoDB connection error:", err);
 });
 
 mongoose.connection.on("disconnected", () => {
-  console.warn("⚠️ MongoDB disconnected");
+  console.warn("MongoDB disconnected");
 });
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📍 Environment: ${process.env.NODE_ENV || "development"}`);
+  console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
 });
