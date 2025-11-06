@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default function ExpenseForm({ onExpenseAdded }) {
   const [form, setForm] = useState({ date: "", purpose: "", amount: "" });
-  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000"; // backend URL from .env
+  const BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000").replace(/\/$/, ""); // backend URL from .env
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
