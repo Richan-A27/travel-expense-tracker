@@ -1,11 +1,28 @@
 const express = require("express");
 const router = express.Router();
+const auth = require("../middleware/auth");
 const Expense = require("../models/Expense");
 
 // Add new expense
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
-    const newExpense = new Expense(req.body);
+    const { date, purpose, amount } = req.body || {};
+
+    if (!date || !purpose || amount === undefined || amount === null || purpose.trim().length === 0) {
+      return res.status(400).json({ message: "date, purpose and amount are required" });
+    }
+
+    const parsedAmount = Number(amount);
+    if (Number.isNaN(parsedAmount)) {
+      return res.status(400).json({ message: "amount must be a number" });
+    }
+
+    const parsedDate = new Date(date);
+    if (Number.isNaN(parsedDate.getTime())) {
+      return res.status(400).json({ message: "date must be a valid date" });
+    }
+
+    const newExpense = new Expense({ userId: req.userId, date: parsedDate, purpose: purpose.trim(), amount: parsedAmount });
     const savedExpense = await newExpense.save();
     res.status(201).json(savedExpense);
   } catch (err) {
@@ -15,9 +32,9 @@ router.post("/", async (req, res) => {
 });
 
 // Get all expenses
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
-    const expenses = await Expense.find();
+    const expenses = await Expense.find({ userId: req.userId }).sort({ date: -1, _id: -1 });
     res.json(expenses);
   } catch (err) {
     console.error("Fetch expenses failed:", err);
@@ -26,9 +43,9 @@ router.get("/", async (req, res) => {
 });
 
 // Delete expense
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
-    await Expense.findByIdAndDelete(req.params.id);
+    await Expense.deleteOne({ _id: req.params.id, userId: req.userId });
     res.json({ message: "Expense deleted" });
   } catch (err) {
     console.error("Delete expense failed:", { id: req.params.id, error: err });

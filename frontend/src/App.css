@@ -129,3 +129,17 @@ h1 {
   font-style: italic;
   margin-top: 15px;
 }
+.auth-container {
+  background: #fff;
+  padding: 25px 35px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  width: 90%;
+  max-width: 400px;
+  margin: 40px auto;
+  text-align: left;
+}
+.auth-container h2 {
+  color: #007bff;
+  text-align: center;
+}
