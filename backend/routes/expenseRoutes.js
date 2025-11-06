@@ -9,7 +9,8 @@ router.post("/", async (req, res) => {
     const savedExpense = await newExpense.save();
     res.status(201).json(savedExpense);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    console.error("Add expense failed:", { body: req.body, error: err });
+    res.status(400).json({ message: err.message || "Failed to add expense" });
   }
 });
 
@@ -19,7 +20,8 @@ router.get("/", async (req, res) => {
     const expenses = await Expense.find();
     res.json(expenses);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("Fetch expenses failed:", err);
+    res.status(500).json({ message: err.message || "Failed to fetch expenses" });
   }
 });
 
@@ -29,7 +31,8 @@ router.delete("/:id", async (req, res) => {
     await Expense.findByIdAndDelete(req.params.id);
     res.json({ message: "Expense deleted" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("Delete expense failed:", { id: req.params.id, error: err });
+    res.status(500).json({ message: err.message || "Failed to delete expense" });
   }
 });
 
