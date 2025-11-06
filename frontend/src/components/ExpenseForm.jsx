@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function ExpenseForm() {
+export default function ExpenseForm({ onExpenseAdded }) {
   const [form, setForm] = useState({ date: "", purpose: "", amount: "" });
-  const BASE_URL = import.meta.env.VITE_API_BASE_URL; // ✅ backend URL from .env
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000"; // ✅ backend URL from .env
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -13,6 +13,9 @@ export default function ExpenseForm() {
       await axios.post(`${BASE_URL}/api/expenses`, form);
       alert("✅ Expense added successfully!");
       setForm({ date: "", purpose: "", amount: "" });
+      if (onExpenseAdded) {
+        onExpenseAdded();
+      }
     } catch (err) {
       alert("❌ Error adding expense. Please try again.");
       console.error(err);

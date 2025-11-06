@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
-export default function ExpenseList() {
+export default function ExpenseList({ refreshKey }) {
   const [expenses, setExpenses] = useState([]);
-  const BASE_URL = import.meta.env.VITE_API_BASE_URL; // ✅ backend URL from .env
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000"; // ✅ backend URL from .env
 
-  const fetchExpenses = async () => {
+  const fetchExpenses = useCallback(async () => {
     try {
       const res = await axios.get(`${BASE_URL}/api/expenses`);
       setExpenses(res.data);
     } catch (err) {
       console.error("Error fetching expenses:", err);
     }
-  };
+  }, [BASE_URL]);
 
   const deleteExpense = async (id) => {
     try {
@@ -25,7 +25,7 @@ export default function ExpenseList() {
 
   useEffect(() => {
     fetchExpenses();
-  }, []);
+  }, [fetchExpenses, refreshKey]);
 
   return (
     <div className="expense-list">
